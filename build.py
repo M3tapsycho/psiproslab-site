@@ -99,7 +99,6 @@ page("/about/", "About Pros De Zutter — ΨProsLab",
     <li><strong>Breathing &amp; HRV training</strong> — paced breathing and humming practice for calm and focus.</li>
     <li><strong>Motivational interviewing</strong> — finding and strengthening your own reasons to change.</li>
   </ul>
-  <p class="muted" style="margin-top:1.6em">Looking for one-to-one sessions? Visit <a href="https://prosdezutter.com">prosdezutter.com</a>.</p>
 </div></section>
 """)
 
