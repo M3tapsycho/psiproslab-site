@@ -4,7 +4,7 @@ from pathlib import Path
 ROOT = Path(__file__).parent
 PRIVACY = "https://app.psiproslab.com/privacy/"
 NAV = [("/", "Lab"), ("/about/", "About"), ("/mindwork/", "Mindwork"),
-       ("/mindtools/", "Mindtools"), ("/mindcare/", "Mindcare")]
+       ("/mindtools/", "Mindtools")]
 
 
 def page(path, title, desc, body):
@@ -26,7 +26,7 @@ def page(path, title, desc, body):
 <header class="top"><div class="wrap">
   <a class="brand" href="/"><b>Ψ</b>ProsLab</a>
   <button class="menu" aria-expanded="false" aria-controls="nav">Menu</button>
-  <nav class="nav" id="nav">{links}<a class="btn" href="/mindcare/#book">Book a free 20-min call</a></nav>
+  <nav class="nav" id="nav">{links}<a class="btn" href="/reset/">Free humming reset</a></nav>
 </div></header>
 <main>
 {body}
@@ -36,7 +36,7 @@ def page(path, title, desc, body):
     <div>© 2026 MSCPDZ Co., Ltd. · Hua Hin, Thailand<br><a href="mailto:psiproslab@gmail.com">psiproslab@gmail.com</a></div>
     <nav><a href="{PRIVACY}">Privacy policy</a><a href="/mindtools/#disclosure">Affiliate disclosure</a></nav>
   </div>
-  <p class="crisis"><strong>In crisis?</strong> ΨProsLab is not an emergency service. In Thailand call the Mental Health Hotline <a href="tel:1323">1323</a> or emergency services <a href="tel:1669">1669</a>. Elsewhere, contact your local emergency number.</p>
+  <p class="crisis"><strong>In crisis?</strong> ΨProsLab offers self-help resources, not therapy or an emergency service. In Thailand call the Mental Health Hotline <a href="tel:1323">1323</a> or emergency services <a href="tel:1669">1669</a>. Elsewhere, contact your local emergency number.</p>
 </div></footer>
 <script src="/assets/site.js"></script>
 </body>
@@ -64,19 +64,18 @@ LEAD = f"""
 
 # ---------- Lab (home) ----------
 page("/", "ΨProsLab — Behavioural science you can practise.",
-     "Evidence-based tools for calm, focus and lasting habits, grounded in behavioural psychology.", f"""
+     "Evidence-based self-help tools and exercises for calm, focus and lasting habits, grounded in behavioural psychology.", f"""
 <section class="hero"><div class="wrap">
   <p class="eyebrow">Behavioural psychology · Evidence-based</p>
   <h1>Behavioural science<br>you can practise.</h1>
-  <p class="lead">Evidence-based tools for calm, focus, and lasting habits — grounded in behavioural psychology.</p>
-  <div class="actions"><a class="btn" href="/mindcare/#book">Book a free 20-min call</a><a class="btn ghost" href="#ways">Explore the Lab</a></div>
+  <p class="lead">Evidence-based self-help tools and exercises for calm, focus and lasting habits — grounded in behavioural psychology.</p>
+  <div class="actions"><a class="btn" href="/reset/">Try the 5-minute humming reset</a><a class="btn ghost" href="#ways">Explore the Lab</a></div>
 </div></section>
 <section id="ways"><div class="wrap">
-  <h2 style="text-align:center">Three ways to work with behavioural science.</h2>
+  <h2 style="text-align:center">Two ways to practise behavioural science.</h2>
   <div class="cards" style="margin-top:28px">
     <div class="card"><h3>Mindwork</h3><p class="muted">Articles and self-help protocols, grounded in research.</p><a class="more" href="/mindwork/">Explore Mindwork →</a></div>
     <div class="card"><h3>Mindtools</h3><p class="muted">Apps and recommended tools for your practice.</p><a class="more" href="/mindtools/">Explore Mindtools →</a></div>
-    <div class="card"><h3>Mindcare</h3><p class="muted">One-to-one online sessions with Pros.</p><a class="more" href="/mindcare/">Explore Mindcare →</a></div>
   </div>
 </div></section>
 {LEAD}
@@ -91,7 +90,7 @@ page("/about/", "About Pros De Zutter — ΨProsLab",
   <p class="lead muted" style="font-size:19px">Behavioral Psychologist (MSc, Maastricht University)</p>
 </div></section>
 <section><div class="wrap narrow">
-  <p>ΨProsLab turns behavioural science into practical tools: short protocols, apps and one-to-one sessions that help you build calm, focus and habits that last.</p>
+  <p>ΨProsLab turns behavioural science into practical, do-it-yourself tools: short protocols, exercises and apps that help you build calm, focus and habits that last.</p>
   <p>The approach is evidence-based and measurable: we start from what research shows works, set clear goals, and track whether things actually change for you.</p>
   <h2 style="margin-top:1.4em">Methods</h2>
   <ul class="clean">
@@ -100,7 +99,7 @@ page("/about/", "About Pros De Zutter — ΨProsLab",
     <li><strong>Breathing &amp; HRV training</strong> — paced breathing and humming practice for calm and focus.</li>
     <li><strong>Motivational interviewing</strong> — finding and strengthening your own reasons to change.</li>
   </ul>
-  <p style="margin-top:1.6em"><a class="btn" href="/mindcare/#book">Book a free 20-min call</a></p>
+  <p class="muted" style="margin-top:1.6em">Looking for one-to-one sessions? Visit <a href="https://prosdezutter.com">prosdezutter.com</a>.</p>
 </div></section>
 """)
 
@@ -141,43 +140,6 @@ page("/mindtools/", "Mindtools — ΨProsLab",
     <div class="card"><h3>Recommended tools — coming soon</h3><p class="muted" style="margin:0">Carefully selected, evidence-informed tools will be listed here soon.</p></div>
   </div>
   <p id="disclosure" class="muted" style="font-size:14px;margin-top:28px"><strong>Affiliate disclosure:</strong> some links on this page may be affiliate links. If you buy through them, ΨProsLab may earn a small commission at no extra cost to you. We only recommend tools we consider useful and evidence-informed.</p>
-</div></section>
-""")
-
-# ---------- Mindcare ----------
-page("/mindcare/", "Mindcare — one-to-one sessions with Pros · ΨProsLab",
-     "Online one-to-one sessions: a free 20-minute intro call, then an 80-minute session for €190.", f"""
-<section class="page-head"><div class="wrap narrow">
-  <p class="eyebrow">Mindcare</p>
-  <h1>One-to-one online sessions with Pros</h1>
-  <p class="muted">Start with a free 20-minute call. If it's a good fit, continue with a full 80-minute session.</p>
-</div></section>
-<section><div class="wrap">
-  <div class="cards">
-    <div class="card"><span class="tag">Free</span><h3>Intro call · 20 min</h3><p class="muted" style="margin:0">Get to know each other, talk about what you'd like to change, and check whether this approach fits you.</p></div>
-    <div class="card"><span class="tag blue">Session</span><h3>Full session · 80 min</h3><p class="price">€190</p><p class="muted" style="margin:0">A structured session with concrete tools and a plan to practise. Booked together with the intro call; cancel after the free call and you're refunded in full.</p></div>
-  </div>
-  <h2 style="margin-top:48px">How it works</h2>
-  <ol class="steps">
-    <li><span>Send a request below.</span></li>
-    <li><span>Pros emails you within two working days to schedule the free 20-minute call.</span></li>
-    <li><span>After the call you decide: continue with the 80-minute session, or cancel for a full refund.</span></li>
-  </ol>
-</div></section>
-<section class="band" id="book"><div class="wrap narrow">
-  <h2>Request your free intro call</h2>
-  <form id="booking-form">
-    <label class="hp" aria-hidden="true">Leave empty<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
-    <label>Name<input type="text" name="name" required autocomplete="name" maxlength="120"></label>
-    <label>Email<input type="email" name="email" required autocomplete="email" maxlength="254"></label>
-    <label>Country<input type="text" name="country" required autocomplete="country-name" maxlength="80"></label>
-    <label>Main reason for the session (optional)<textarea name="reason" maxlength="2000"></textarea></label>
-    <label class="check"><input type="checkbox" name="consent_privacy" required><span>I have read the <a href="{PRIVACY}">Privacy Policy</a>.</span></label>
-    <label class="check"><input type="checkbox" name="consent_health"><span>I agree that ΨProsLab may use the information in this form, including any health information I share, to arrange and prepare my session, as described in the <a href="{PRIVACY}">Privacy Policy</a>. (Required if you fill in a reason.)</span></label>
-    <div><button class="btn" type="submit">Send request</button></div>
-    <p class="msg" role="status"></p>
-  </form>
-  <p class="muted" style="font-size:14px;margin-top:18px">Sessions are psychoeducational and not a substitute for emergency or medical care.</p>
 </div></section>
 """)
 
