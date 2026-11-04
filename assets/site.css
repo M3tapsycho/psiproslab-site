@@ -82,3 +82,17 @@ footer .cols{display:flex;flex-wrap:wrap;gap:20px 40px;justify-content:space-bet
 footer nav{display:flex;flex-wrap:wrap;gap:18px}
 footer a{color:var(--muted)}
 .crisis{margin-top:22px;padding:14px 16px;border-radius:12px;background:var(--wash-blue);color:var(--ink);font-size:14px}
+
+/* article pages */
+.prose{padding:48px 0 72px}
+.prose h2{margin-top:1.6em}
+.prose h2:first-child{margin-top:0}
+.prose ul,.prose ol{padding-left:1.3em;margin:0 0 1em}
+.prose li{margin-bottom:.4em}
+.prose table{width:100%;border-collapse:collapse;margin:0 0 1em;font-size:15px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.prose th,.prose td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.prose th{font-weight:500;background:var(--wash-blue)}
+.table-scroll{overflow-x:auto}
+.note{padding:12px 16px;border-radius:12px;background:var(--wash-green);color:var(--ink);font-size:15px}
+.grade{display:inline-block;font:500 13px "Inter",sans-serif;border-radius:999px;padding:1px 9px;margin-left:6px;vertical-align:middle;background:var(--wash-blue);color:var(--navy)}
+.disclaimer{margin-top:22px;font-size:14px}

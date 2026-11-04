@@ -1,10 +1,13 @@
-"""Builds the static psiproslab.com pages from the content below. Run: python3 build.py"""
+"""Builds the static psiproslab.com pages from the content below. Run: python3 build.py
+Source text: Claude Doc "Brain and Sleep – psiproslab draft" (+ approved disclaimer fixes, 4 Nov 2026)."""
 from pathlib import Path
 
 ROOT = Path(__file__).parent
 PRIVACY = "https://app.psiproslab.com/privacy/"
-NAV = [("/", "Lab"), ("/about/", "About"), ("/mindwork/", "Mindwork"),
-       ("/mindtools/", "Mindtools")]
+NAV = [("/", "Home"), ("/building-blocks/", "Building blocks"), ("/exercises/", "Exercises"),
+       ("/brain-and-sleep/", "Brain and Sleep"), ("/sources/", "Sources")]
+HEALTH_CHECK = ('<p class="note"><strong>Health check:</strong> ask your doctor first if you have a heart '
+                'condition, take beta-blockers or have an eating disorder.</p>')
 
 
 def page(path, title, desc, body):
@@ -26,7 +29,7 @@ def page(path, title, desc, body):
 <header class="top"><div class="wrap">
   <a class="brand" href="/"><b>Ψ</b>ProsLab</a>
   <button class="menu" aria-expanded="false" aria-controls="nav">Menu</button>
-  <nav class="nav" id="nav">{links}<a class="btn" href="/reset/">Free humming reset</a></nav>
+  <nav class="nav" id="nav">{links}</nav>
 </div></header>
 <main>
 {body}
@@ -34,9 +37,9 @@ def page(path, title, desc, body):
 <footer><div class="wrap">
   <div class="cols">
     <div>© 2026 MSCPDZ Co., Ltd. · Hua Hin, Thailand<br><a href="mailto:psiproslab@gmail.com">psiproslab@gmail.com</a></div>
-    <nav><a href="{PRIVACY}">Privacy policy</a><a href="/mindtools/#disclosure">Affiliate disclosure</a></nav>
+    <nav><a href="{PRIVACY}">Privacy policy</a></nav>
   </div>
-  <p class="crisis"><strong>In crisis?</strong> ΨProsLab offers self-help resources, not therapy or an emergency service. In Thailand call the Mental Health Hotline <a href="tel:1323">1323</a> or emergency services <a href="tel:1669">1669</a>. Elsewhere, contact your local emergency number.</p>
+  <p class="crisis disclaimer">ΨProsLab shares self-help information for learning. It is not therapy, diagnosis or medical advice. <strong>In crisis?</strong> Call your local emergency number or find a helpline at <a href="https://findahelpline.com">findahelpline.com</a>.</p>
 </div></footer>
 <script src="/assets/site.js"></script>
 </body>
@@ -47,127 +50,228 @@ def page(path, title, desc, body):
     out.write_text(html, encoding="utf-8")
 
 
-LEAD = f"""
-<section class="band"><div class="wrap narrow" style="text-align:center">
-  <span class="tag">Free</span>
-  <h2>Get the free 5-minute humming reset</h2>
-  <p class="muted">A science-backed breathing protocol you can use anywhere, anytime.</p>
-  <form id="lead-form" class="inline-form">
-    <label class="hp" aria-hidden="true">Leave empty<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
-    <input type="email" name="email" required placeholder="Your email address" aria-label="Email address" autocomplete="email">
-    <button class="btn" type="submit">Send it to me</button>
-    <label class="check" style="flex-basis:100%;max-width:520px;margin:0 auto;text-align:left"><input type="checkbox" name="consent" required><span>I'd like the humming reset and occasional ΨProsLab updates. Unsubscribe any time. See the <a href="{PRIVACY}">Privacy Policy</a>.</span></label>
-    <p class="msg" role="status" style="flex-basis:100%"></p>
-  </form>
-</div></section>
-"""
+def article(h1, intro, body):
+    return f"""<section class="page-head"><div class="wrap narrow"><h1>{h1}</h1><p class="muted">{intro}</p></div></section>
+<div class="prose"><div class="wrap narrow">
+{body}
+</div></div>"""
 
-# ---------- Lab (home) ----------
-page("/", "ΨProsLab — Behavioural science you can practise.",
-     "Evidence-based self-help tools and exercises for calm, focus and lasting habits, grounded in behavioural psychology.", f"""
-<section class="hero"><div class="wrap">
-  <p class="eyebrow">Behavioural psychology · Evidence-based</p>
-  <h1>Behavioural science<br>you can practise.</h1>
-  <p class="lead">Evidence-based self-help tools and exercises for calm, focus and lasting habits — grounded in behavioural psychology.</p>
-  <div class="actions"><a class="btn" href="/reset/">Try the 5-minute humming reset</a><a class="btn ghost" href="#ways">Explore the Lab</a></div>
+
+def ex(text):
+    return f"<p><strong>Example:</strong> {text}</p>"
+
+
+# ---------- Home ----------
+HOME = """<section class="hero"><div class="wrap">
+  <h1>psiproslab</h1>
+  <p class="lead">Simple tools for a calmer, sharper mind. The science, explained simply.</p>
 </div></section>
-<section id="ways"><div class="wrap">
-  <h2 style="text-align:center">Two ways to practise behavioural science.</h2>
+<section><div class="wrap">
+  <h2 style="text-align:center">How to use this site</h2>
   <div class="cards" style="margin-top:28px">
-    <div class="card"><h3>Mindwork</h3><p class="muted">Articles and self-help protocols, grounded in research.</p><a class="more" href="/mindwork/">Explore Mindwork →</a></div>
-    <div class="card"><h3>Mindtools</h3><p class="muted">Apps and recommended tools for your practice.</p><a class="more" href="/mindtools/">Explore Mindtools →</a></div>
+    <div class="card"><h3>1. Building blocks</h3><p class="muted">Short pieces on how your brain works.</p><a class="more" href="/building-blocks/">Read the building blocks →</a></div>
+    <div class="card"><h3>2. Exercises</h3><p class="muted">The blocks put to work on real problems, like quitting smoking or putting things off.</p><a class="more" href="/exercises/">Try the exercises →</a></div>
+    <div class="card"><h3>3. Brain and Sleep</h3><p class="muted">What really helps, graded A, B or C.</p><a class="more" href="/brain-and-sleep/">See what helps →</a></div>
   </div>
-</div></section>
-{LEAD}
-""")
+  <p class="muted" style="text-align:center;margin-top:28px">Every claim has a grade and a source you can <a href="/sources/">check yourself</a>.</p>
+</div></section>"""
 
-# ---------- About ----------
-page("/about/", "About Pros De Zutter — ΨProsLab",
-     "Pros De Zutter, Behavioral Psychologist (MSc, Maastricht University).", """
-<section class="page-head"><div class="wrap narrow">
-  <p class="eyebrow">About</p>
-  <h1>Pros De Zutter</h1>
-  <p class="lead muted" style="font-size:19px">Behavioral Psychologist (MSc, Maastricht University)</p>
-</div></section>
-<section><div class="wrap narrow">
-  <p>ΨProsLab turns behavioural science into practical, do-it-yourself tools: short protocols, exercises and apps that help you build calm, focus and habits that last.</p>
-  <p>The approach is evidence-based and measurable: we start from what research shows works, set clear goals, and track whether things actually change for you.</p>
-  <h2 style="margin-top:1.4em">Methods</h2>
-  <ul class="clean">
-    <li><strong>Cognitive behavioural therapy (CBT)</strong> — working with thoughts and behaviour patterns that keep problems going.</li>
-    <li><strong>Behaviour change &amp; habits</strong> — small, structured steps that stick.</li>
-    <li><strong>Breathing &amp; HRV training</strong> — paced breathing and humming practice for calm and focus.</li>
-    <li><strong>Motivational interviewing</strong> — finding and strengthening your own reasons to change.</li>
-  </ul>
-</div></section>
-""")
+# ---------- Building blocks ----------
+BLOCKS = f"""<h2>Mind tool: the ABC model</h2>
+<p>It's not the situation that decides how you feel, but what you think about it. This model comes from Albert Ellis (REBT) and is a core idea of cognitive behavioural therapy.</p>
+<ul>
+<li><strong>A, Activating event:</strong> what happens.</li>
+<li><strong>B, Belief:</strong> what you think about it.</li>
+<li><strong>C, Consequence:</strong> what you feel and do.</li>
+</ul>
+<p><strong>Example: the traffic light.</strong> You're waiting at a red light, you get distracted, and the light turns green. The driver behind you honks.</p>
+<div class="table-scroll"><table>
+<tr><th></th><th>Driver 1</th><th>Driver 2</th></tr>
+<tr><td><strong>A: Event</strong></td><td>Someone honks</td><td>Someone honks</td></tr>
+<tr><td><strong>B: Thought</strong></td><td>"How impatient, it's only a few seconds!"</td><td>"Good, they noticed I was distracted."</td></tr>
+<tr><td><strong>C: Feeling and action</strong></td><td>Anger, annoyed at the other driver</td><td>Gratitude, a friendly wave</td></tr>
+</table></div>
+<p>Same situation, different thought, different outcome.</p>
+<p><strong>Try it yourself:</strong></p>
+<ol>
+<li>Think of a recent moment when you felt a strong emotion. That's your <strong>C</strong>.</li>
+<li>Write down what happened, just the facts. That's your <strong>A</strong>.</li>
+<li>Ask yourself: "What did I think at that moment?" That's your <strong>B</strong>.</li>
+<li>Look for another possible thought about the same event. How would you feel then?</li>
+</ol>
 
-# ---------- Mindwork ----------
-page("/mindwork/", "Mindwork — ΨProsLab",
-     "Articles and self-help protocols, grounded in research.", f"""
-<section class="page-head"><div class="wrap narrow">
-  <p class="eyebrow">Mindwork</p>
-  <h1>Articles and self-help protocols</h1>
-  <p class="muted">Every piece states how strong the evidence behind it is.</p>
-</div></section>
-<section><div class="wrap">
-  <div class="cards">
-    <div class="card"><span class="tag">Strong evidence</span><p class="muted" style="margin:0">Supported by systematic reviews or meta-analyses.</p></div>
-    <div class="card"><span class="tag blue">Promising</span><p class="muted" style="margin:0">Supported by controlled trials, but not yet by large reviews.</p></div>
-    <div class="card"><span class="tag" style="background:var(--line);color:var(--muted)">Early</span><p class="muted" style="margin:0">Based on small studies or expert consensus; try with curiosity.</p></div>
-  </div>
-  <h2 style="margin-top:48px">Coming soon</h2>
-  <div class="cards">
-    <div class="card"><h3>The 5-minute humming reset</h3><p class="muted">A short breathing protocol for calm and focus.</p><a class="more" href="/reset/">Read it now →</a></div>
-    <div class="card"><h3>Habits that last</h3><p class="muted">Why small, specific steps beat motivation.</p><p class="muted" style="margin:0">Coming soon</p></div>
-    <div class="card"><h3>Untangling worry</h3><p class="muted">CBT tools for thoughts that keep you awake.</p><p class="muted" style="margin:0">Coming soon</p></div>
-  </div>
-</div></section>
-{LEAD}
-""")
+<h2>The three brains</h2>
+<p>Think of your brain as three helpers. The instinct brain keeps you alive, the emotion brain makes you feel, and the thinking brain plans and decides. This is a simple picture, not exact anatomy: the old "triune brain" model by MacLean is outdated, but the idea that stress hands control to faster systems is well supported (Arnsten, 2009 review).</p>
 
-# ---------- Mindtools ----------
-page("/mindtools/", "Mindtools — ΨProsLab",
-     "Apps and recommended tools for your practice.", """
-<section class="page-head"><div class="wrap narrow">
-  <p class="eyebrow">Mindtools</p>
-  <h1>Apps and tools for your practice</h1>
-</div></section>
-<section><div class="wrap">
-  <div class="cards">
-    <div class="card"><span class="tag">ΨProsLab app</span><h3>Humming Trainer</h3><p class="muted">Adaptive humming and breathing practice for calm and focus. Sessions adjust to your pace and progress.</p><p class="muted" style="margin:0">Coming soon to Google Play</p></div>
-    <div class="card"><h3>Recommended tools — coming soon</h3><p class="muted" style="margin:0">Carefully selected, evidence-informed tools will be listed here soon.</p></div>
-  </div>
-  <p id="disclosure" class="muted" style="font-size:14px;margin-top:28px"><strong>Affiliate disclosure:</strong> some links on this page may be affiliate links. If you buy through them, ΨProsLab may earn a small commission at no extra cost to you. We only recommend tools we consider useful and evidence-informed.</p>
-</div></section>
-""")
+<h2>Instinct is faster</h2>
+<p>Your survival reflex acts before you feel or think. Nothing is switched off; it simply wins the race.</p>
+{ex('You see a garden hose in the grass and jump back. A moment later you feel fear. Only then does your thinking brain say, "It\'s just a hose." (LeDoux\'s research on the brain\'s fast survival circuit.)')}
 
-# ---------- Humming reset ----------
-page("/reset/", "The 5-minute humming reset — ΨProsLab",
-     "A short humming and breathing protocol for calm and focus.", """
-<section class="page-head"><div class="wrap narrow">
-  <p class="eyebrow">Mindwork · Protocol</p>
-  <h1>The 5-minute humming reset</h1>
-  <span class="tag">Strong evidence</span> <span class="muted" style="font-size:14px">for slow breathing · humming itself: promising</span>
-</div></section>
-<section><div class="wrap narrow">
-  <h2>How to do it</h2>
-  <ol class="steps">
-    <li><span><strong>Sit comfortably</strong>, shoulders relaxed. Set a timer for 5 minutes.</span></li>
-    <li><span><strong>Breathe in through your nose</strong> for about 4 seconds.</span></li>
-    <li><span><strong>Hum out with your lips closed</strong> for about 6 seconds, a low, comfortable "mmm". Feel the buzz in your face and chest.</span></li>
-    <li><span><strong>Repeat</strong> for 5 minutes. That is about 6 breaths a minute. If it's easy, lengthen the hum a little.</span></li>
-    <li><span><strong>Notice</strong> how you feel before and after, on a scale of 0–10.</span></li>
-  </ol>
-  <h2 style="margin-top:1.4em">Why it works</h2>
-  <ul class="clean">
-    <li>Breathing at around 6 breaths a minute, with a longer out-breath, reliably increases heart rate variability, a marker of calm, recovery and self-regulation (meta-analyses).</li>
-    <li>Humming slows and lengthens the out-breath automatically, which makes this pace easy to keep.</li>
-    <li>Humming also raises nitric oxide in the nose many times over compared with quiet breathing (controlled lab studies).</li>
-  </ul>
-  <p class="muted" style="font-size:14px">This is a wellness exercise, not a medical treatment. Stop if you feel dizzy. If you have a health concern, consult a healthcare professional.</p>
-  <p style="margin-top:1.6em"><a class="btn" href="/mindtools/">Practise with Humming Trainer</a></p>
-</div></section>
-""")
+<h2>Emotion takes over</h2>
+<p>When an emotion is very strong, it turns down your thinking brain. You act first and think later.</p>
+{ex('In a heated fight with your partner, you say hurtful things you don\'t mean. When you calm down, your thinking brain comes back and you think, "Why did I say that?" Regret follows.')}
 
-print("built")
+<h2>The white bear effect</h2>
+<p>Trying not to think about something keeps it in your head. Your brain can't do "don't"; it only hears the thing itself. Fighting the thought also costs energy. (Wegner's research, confirmed by a meta-analysis.)</p>
+{ex('Try not to think of a white bear for one minute. It keeps popping up.')}
+
+<h2>The emotional bucket</h2>
+<p>Stress and strong feelings fill a bucket inside you over the day. When it's full, even small things make it overflow.</p>
+{ex('After a stressful day, a spilled glass of milk makes you snap at your kids. On a calm morning, you\'d just wipe it up.')}
+
+<h2>The clogged engine</h2>
+<p>Hard thinking is like a car engine working hard: dirt builds up in the filter. The more it clogs, the harder every effort feels, so you pick the easy option. A full emotional bucket is like driving uphill with a heavy load: the filter clogs faster. Rest and sleep clean it. (A 2022 brain study by Wiehler and colleagues; more studies are needed.)</p>
+{ex('After a long workday you planned to cook, but you order takeaway instead.')}
+
+<h2>The relief reward</h2>
+<p>Avoiding something unpleasant feels good right away. That relief works like a reward, so your brain learns to avoid it again. (Research by Sirois and Pychyl; a meta-analysis by Steel.)</p>
+{ex('You open your tax forms, feel a knot in your stomach, and grab your phone instead. The knot goes away, so next time you grab the phone sooner.')}
+
+<h2 id="tipp">TIPP: empty the bucket fast</h2>
+<p>Four quick ways to calm your body when emotions run high. (A skill from Dialectical Behaviour Therapy.)</p>
+<ol>
+<li><strong>Temperature:</strong> Cold water on your face for 30 seconds.</li>
+<li><strong>Intense exercise:</strong> A few minutes of hard movement.</li>
+<li><strong>Paced breathing:</strong> Breathe out longer than in, for example in for 4, out for 6.</li>
+<li><strong>Paired muscle relaxation:</strong> Tense a muscle while breathing in, let go while breathing out.</li>
+</ol>
+{HEALTH_CHECK}
+{ex('Panic rises before a meeting. You splash cold water on your face, and your heart slows down.')}"""
+
+# ---------- Exercises ----------
+EXERCISES = f"""<h2>Quitting smoking</h2>
+<p class="muted">Uses: white bear effect, emotional bucket, clogged engine, TIPP.</p>
+<p>Telling yourself "don't smoke" all day keeps the urge alive. On a stressful day the bucket overflows, the engine clogs, and you light up. So stop fighting the thought, and empty the bucket with <a href="/building-blocks/#tipp">TIPP</a> before the urge wins.</p>
+{HEALTH_CHECK}
+
+<h2>Beating procrastination</h2>
+<p class="muted">Uses: relief reward, emotional bucket, TIPP.</p>
+<p>Deal with the feeling first, then the task.</p>
+<ol>
+<li><strong>Name the feeling:</strong> "This task makes me anxious" or "bored."</li>
+<li><strong>Lower it:</strong> Use <a href="/building-blocks/#tipp">TIPP</a>, or remind yourself the feeling will pass.</li>
+<li><strong>Make the start tiny:</strong> Commit to only 5 minutes.</li>
+<li><strong>Notice the good feeling of doing:</strong> Progress feels better than escape.</li>
+</ol>
+
+<h2>Find your real goals: the limitless wish list</h2>
+<p>This exercise shows what you really want once "realistic" filters are out of the way. It takes about 15 minutes.</p>
+<ol>
+<li><strong>Remove every limit.</strong> Imagine there are no limits on age, money, situation, personality or other people. Anything goes, from a private jet to becoming a squirrel.</li>
+<li><strong>Write 10 wishes.</strong> List the first 10 things you want. Don't judge or edit them.</li>
+<li><strong>Compare in pairs.</strong> Compare wish 1 with wish 2 and keep the one you want more. Compare that winner with wish 3, then with wish 4, and so on to the end of the list. The last one standing is your number one.</li>
+<li><strong>Repeat without the winner.</strong> Go back to the top of the list and run the comparisons again, skipping your number one. The new winner is your number two.</li>
+<li><strong>Repeat once more.</strong> Skip both winners and run it again to find your number three.</li>
+<li><strong>Reflect.</strong> Your top three are a good indication of what you really want. Ask yourself what each one gives you, such as freedom, safety, connection or meaning. Then ask what small, realistic step would move you toward that today.</li>
+</ol>"""
+
+
+def g(grade):
+    return f'<span class="grade">{grade}</span>'
+
+
+# ---------- Brain and Sleep ----------
+SLEEP = f"""<p><strong>Grades:</strong> A = strong proof, B = some proof, C = little proof.</p>
+
+<h2>The basics that work best</h2>
+<ol>
+<li><strong>Sleep</strong>{g('A')}: 7–9 hours, at the same times every day. Get daylight in the morning, and dim screens at night.</li>
+<li><strong>Move</strong>{g('A')}: Walking, cycling or swimming helps your thinking and your mood.</li>
+<li><strong>Eat</strong>{g('B')}: Lots of vegetables, fish and olive oil, like in the Mediterranean.</li>
+<li><strong>Focus</strong>{g('B')}: Do one thing at a time and take breaks.</li>
+</ol>
+
+<h2>Melatonin: for sleep timing {g('A for jet lag, B for falling asleep')}</h2>
+<p>Melatonin tells your body clock "it's night." It sets the time; it doesn't knock you out.</p>
+<ul>
+<li><strong>Good for:</strong> jet lag, night shifts and night owls. You fall asleep a few minutes faster.</li>
+<li><strong>How:</strong> A small dose (0.5–1 mg) works as well as a big one. Take it 1–3 hours before bedtime.</li>
+<li><strong>Watch out:</strong> It doesn't cure long-term sleep problems; a sleep therapy called CBT-I does. It can make you groggy or give you headaches or vivid dreams. Rules differ by country: in some, melatonin needs a prescription. Check with your doctor or pharmacist.</li>
+</ul>
+
+<h2>Creatine: brain fuel {g('B')}</h2>
+<p>Your muscles use creatine, and so does your brain.</p>
+<ul>
+<li><strong>Good for:</strong> a little better memory, mostly in older people, vegetarians and people short on sleep.</li>
+<li><strong>How:</strong> 3–5 g of creatine monohydrate a day.</li>
+<li><strong>Watch out:</strong> The effect is small. If you have kidney problems, ask your doctor first.</li>
+</ul>
+
+<h2>L-theanine: calm focus {g('B')}</h2>
+<p>L-theanine comes from tea.</p>
+<ul>
+<li><strong>Good for:</strong> together with coffee, it helps you focus without the jitters.</li>
+<li><strong>Watch out:</strong> The effect is mild. A cup of green tea gives you both at once.</li>
+</ul>
+
+<h2>Omega-3: fish oil {g('B')}</h2>
+<p>Your brain is partly built from these fats.</p>
+<ul>
+<li><strong>Good for:</strong> a small help with low mood. Little effect on memory.</li>
+<li><strong>How:</strong> Oily fish twice a week, or about 1 g of fish oil a day.</li>
+<li><strong>Watch out:</strong> If you take blood thinners, ask your doctor first.</li>
+</ul>
+
+<h2>Lion's mane: a mushroom {g('C')}</h2>
+<ul>
+<li><strong>Good for:</strong> maybe memory and mood, but it's mostly tested on animals.</li>
+<li><strong>Watch out:</strong> Quality differs a lot between brands. A few people get allergic reactions.</li>
+</ul>
+
+<h2>Peptides such as BPC-157 {g('C')}</h2>
+<ul>
+<li><strong>Proof:</strong> Almost no good tests in people.</li>
+<li><strong>Watch out:</strong> Often sold online with unknown contents, usually as injections, and many are not approved.</li>
+<li><strong>Bottom line:</strong> Not an approved medicine and banned in sport. Best avoided.</li>
+</ul>
+
+<p><em>This page is for learning, not medical advice.</em></p>
+<p>Want to check the science? See <a href="/sources/">Sources</a>.</p>"""
+
+
+# ---------- Sources ----------
+def src(label, links):
+    return "<li>" + label + ": " + " and ".join(f'<a href="{u}">{t}</a>' for t, u in links) + "</li>"
+
+
+SOURCES = "<h2>Brain and Sleep</h2><ul>" + "".join([
+    src("Melatonin", [("Ferracioli-Oda et al., 2013, meta-analysis, PLOS One", "https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0063773")]),
+    src("Sleep therapy (CBT-I)", [("Trauer et al., 2015, meta-analysis, Annals of Internal Medicine", "https://pubmed.ncbi.nlm.nih.gov/26054060/")]),
+    src("Creatine", [("Avgerinos et al., 2018, systematic review, Experimental Gerontology", "https://pmc.ncbi.nlm.nih.gov/articles/PMC6093191/")]),
+    src("L-theanine and coffee", [("Owen et al., 2008, trial, Nutritional Neuroscience", "https://pubmed.ncbi.nlm.nih.gov/18681988/")]),
+    src("Omega-3 and mood", [("Liao et al., 2019, meta-analysis, Translational Psychiatry", "https://www.nature.com/articles/s41398-019-0515-5")]),
+    src("Lion's mane", [("Mori et al., 2009, trial, Phytotherapy Research", "https://pubmed.ncbi.nlm.nih.gov/18844328/")]),
+    src("Exercise and thinking", [("Smith et al., 2010, meta-analysis, Psychosomatic Medicine", "https://pmc.ncbi.nlm.nih.gov/articles/PMC2897704/")]),
+    src("Mediterranean diet", [("2024 meta-analysis, GeroScience", "https://pubmed.ncbi.nlm.nih.gov/39797935/")]),
+    src("Focus and task switching", [("Monsell, 2003, review, Trends in Cognitive Sciences", "https://doi.org/10.1016/S1364-6613(03)00028-7")]),
+]) + "</ul><h2>Building blocks</h2><ul>" + "".join([
+    src("ABC model and CBT", [("David, Cristea and Hofmann, 2018, Frontiers in Psychiatry", "https://www.frontiersin.org/journals/psychiatry/articles/10.3389/fpsyt.2018.00004/full")]),
+    src("Three brains and emotion takes over", [("Arnsten, 2009, review, Nature Reviews Neuroscience", "https://pubmed.ncbi.nlm.nih.gov/19455173/")]),
+    src("Instinct is faster", [("LeDoux, 2000, review, Annual Review of Neuroscience", "https://pubmed.ncbi.nlm.nih.gov/10845062/")]),
+    src("White bear effect", [("Wegner et al., 1987, experiment", "https://pubmed.ncbi.nlm.nih.gov/3612492/"), ("Abramowitz et al., 2001, meta-analysis", "https://www.sciencedirect.com/science/article/abs/pii/S027273580000057X")]),
+    src("Clogged engine", [("Wiehler et al., 2022, Current Biology", "https://pubmed.ncbi.nlm.nih.gov/35961314/"), ("Inzlicht and Friese, 2019, review", "https://econtent.hogrefe.com/doi/10.1027/1864-9335/a000398")]),
+    src("Relief reward", [("Sirois and Pychyl, 2013", "https://eprints.whiterose.ac.uk/id/eprint/91793/"), ("Steel, 2007, meta-analysis, Psychological Bulletin", "https://pubmed.ncbi.nlm.nih.gov/17201571/")]),
+    src("TIPP", [("Linehan, DBT Skills Training Manual", "https://www.guilford.com/books/DBT-Skills-Training-Manual/Marsha-Linehan/9781462556359")]),
+]) + "</ul>"
+
+NOT_FOUND = """<section class="page-head"><div class="wrap narrow"><h1>Page not found</h1>
+<p class="muted">This page moved or no longer exists. Start from the <a href="/">home page</a>.</p></div></section>"""
+
+page("/", "psiproslab — Simple tools for a calmer, sharper mind",
+     "Simple, evidence-graded tools for a calmer, sharper mind. The science, explained simply.", HOME)
+page("/building-blocks/", "Building blocks — psiproslab", "Short pieces on how your brain works.",
+     article("Building blocks", "Short pieces on how your brain works. Each one stands on its own.", BLOCKS))
+page("/exercises/", "Exercises — psiproslab", "The building blocks put to work on real problems.",
+     article("Exercises", "The building blocks put to work on real problems.", EXERCISES))
+page("/brain-and-sleep/", "Brain and Sleep: what really helps — psiproslab",
+     "Sleep, exercise, diet and supplements for the brain, graded A, B or C.",
+     article("Brain and Sleep: what really helps",
+             "Many pills promise a better brain. Most do little. This page shows what works and what doesn't. "
+             "First the basics, because they beat every pill. Ask your doctor before you take anything, "
+             "especially if you take medicine, are pregnant or are ill.", SLEEP))
+page("/sources/", "Sources — psiproslab", "The studies behind every claim on psiproslab.",
+     article("Sources", "For anyone who wants to check the science.", SOURCES))
+(ROOT / "404.html").write_text("", encoding="utf-8")
+page("/404/", "Page not found — psiproslab", "Page not found.", NOT_FOUND)
+(ROOT / "404" / "index.html").rename(ROOT / "404.html")
+(ROOT / "404").rmdir()
