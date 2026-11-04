@@ -64,18 +64,18 @@ def ex(text):
 
 
 # ---------- Home ----------
-HOME = """<section class="hero"><div class="wrap">
+HOME = """<section class="hero"><div class="wrap narrow">
   <h1>psiproslab</h1>
   <p class="lead">Simple tools for a calmer, sharper mind. The science, explained simply.</p>
 </div></section>
-<section><div class="wrap">
-  <h2 style="text-align:center">How to use this site</h2>
-  <div class="cards" style="margin-top:28px">
-    <div class="card"><h3>1. Building blocks</h3><p class="muted">Short pieces on how your brain works.</p><a class="more" href="/building-blocks/">Read the building blocks →</a></div>
-    <div class="card"><h3>2. Exercises</h3><p class="muted">The blocks put to work on real problems, like quitting smoking or putting things off.</p><a class="more" href="/exercises/">Try the exercises →</a></div>
-    <div class="card"><h3>3. Brain and Sleep</h3><p class="muted">What really helps, graded A, B or C.</p><a class="more" href="/brain-and-sleep/">See what helps →</a></div>
-  </div>
-  <p class="muted" style="text-align:center;margin-top:28px">Every claim has a grade and a source you can <a href="/sources/">check yourself</a>.</p>
+<section><div class="wrap narrow">
+  <h2>How to use this site</h2>
+  <ol class="rows">
+    <li><a href="/building-blocks/"><b>Building blocks</b><span>Short pieces on how your brain works.</span></a></li>
+    <li><a href="/exercises/"><b>Exercises</b><span>The blocks put to work on real problems.</span></a></li>
+    <li><a href="/brain-and-sleep/"><b>Brain and Sleep</b><span>What really helps, graded A, B or C.</span></a></li>
+  </ol>
+  <p class="small muted">Every claim has a grade and a <a href="/sources/">source</a> you can check.</p>
 </div></section>"""
 
 # ---------- Building blocks (one page each) ----------
@@ -222,7 +222,7 @@ def node_map():
                 f'<text x="{x:.0f}" y="{y + r + 14:.0f}" font-size="12" text-anchor="middle" fill="#8a94ab">{i["short"]}</text></a>')
     nodes = "".join(node(b, "/building-blocks/", "nb", 9, "#e6f0fa", "#1b2a4e") for b in BLOCKS)
     nodes += "".join(node(e, "/exercises/", "ne", 13, "#2f7a5b", "#2f7a5b") for e in EXERCISES)
-    return f"""<svg class="nodemap" width="100%" style="max-width:520px;height:auto" viewBox="0 -6 400 420" role="img" aria-label="Map of building blocks and the exercises that use them">
+    return f"""<svg class="nodemap" width="100%" style="max-width:440px;height:auto" viewBox="0 -6 400 420" role="img" aria-label="Map of building blocks and the exercises that use them">
 <g class="links" stroke="#9aa6bd" stroke-width="1.5">{lines}</g>{nodes}</svg>
 <p class="legend"><span class="dot b"></span>Building block <span class="dot e"></span>Exercise · tap a node to open it</p>"""
 def g(grade):
@@ -316,8 +316,8 @@ SOURCES = "<h2>Brain and Sleep</h2><ul>" + "".join([
 NOT_FOUND = """<section class="page-head"><div class="wrap narrow"><h1>Page not found</h1>
 <p class="muted">This page moved or no longer exists. Start from the <a href="/">home page</a>.</p></div></section>"""
 
-MAP = f"""<section class="band"><div class="wrap narrow" style="text-align:center">
-<h2>How it all connects</h2><p class="muted">Each exercise is built from building blocks.</p>
+MAP = f"""<section class="band"><div class="wrap narrow">
+<h2>How it connects</h2>
 {node_map()}</div></section>"""
 page("/", "psiproslab — Simple tools for a calmer, sharper mind",
      "Simple, evidence-graded tools for a calmer, sharper mind. The science, explained simply.", HOME + MAP)
