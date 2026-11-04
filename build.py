@@ -1,9 +1,11 @@
 """Builds the static psiproslab.com pages from the content below. Run: python3 build.py
 Source text: Claude Doc "Brain and Sleep – psiproslab draft" (+ approved disclaimer fixes, 4 Nov 2026)."""
 from pathlib import Path
+import hashlib
 
 ROOT = Path(__file__).parent
 PRIVACY = "https://app.psiproslab.com/privacy/"
+def _v(f): return hashlib.md5((ROOT / "assets" / f).read_bytes()).hexdigest()[:8]
 NAV = [("/", "Home"), ("/building-blocks/", "Building blocks"), ("/exercises/", "Exercises"),
        ("/brain-and-sleep/", "Brain and Sleep"), ("/sources/", "Sources")]
 HEALTH_CHECK = ('<p class="note"><strong>Health check:</strong> ask your doctor first if you have a heart '
@@ -23,7 +25,7 @@ def page(path, title, desc, body):
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Inter:wght@400;500&display=swap">
-<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/site.css?v={_v('site.css')}">
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -41,7 +43,7 @@ def page(path, title, desc, body):
   </div>
   <p class="crisis disclaimer">ΨProsLab shares self-help information for learning. It is not therapy, diagnosis or medical advice. <strong>In crisis?</strong> Call your local emergency number or find a helpline at <a href="https://findahelpline.com">findahelpline.com</a>.</p>
 </div></footer>
-<script src="/assets/site.js"></script>
+<script src="/assets/site.js?v={_v('site.js')}"></script>
 </body>
 </html>
 """
@@ -214,14 +216,14 @@ def node_map():
     lines = "".join(
         f'<line x1="{pos[e["slug"]][0]:.0f}" y1="{pos[e["slug"]][1]:.0f}" x2="{pos[u][0]:.0f}" y2="{pos[u][1]:.0f}"/>'
         for e in EXERCISES for u in e["uses"])
-    def node(i, href, cls, r):
+    def node(i, href, cls, r, fill, stroke):
         x, y = pos[i["slug"]]
-        return (f'<a href="{href}{i["slug"]}/" class="{cls}"><circle cx="{x:.0f}" cy="{y:.0f}" r="{r}"/>'
-                f'<text x="{x:.0f}" y="{y + r + 14:.0f}">{i["short"]}</text></a>')
-    nodes = "".join(node(b, "/building-blocks/", "nb", 9) for b in BLOCKS)
-    nodes += "".join(node(e, "/exercises/", "ne", 13) for e in EXERCISES)
-    return f"""<svg class="nodemap" viewBox="0 -6 400 420" role="img" aria-label="Map of building blocks and the exercises that use them">
-<g class="links">{lines}</g>{nodes}</svg>
+        return (f'<a href="{href}{i["slug"]}/" class="{cls}"><circle cx="{x:.0f}" cy="{y:.0f}" r="{r}" fill="{fill}" stroke="{stroke}" stroke-width="2"/>'
+                f'<text x="{x:.0f}" y="{y + r + 14:.0f}" font-size="12" text-anchor="middle" fill="#8a94ab">{i["short"]}</text></a>')
+    nodes = "".join(node(b, "/building-blocks/", "nb", 9, "#e6f0fa", "#1b2a4e") for b in BLOCKS)
+    nodes += "".join(node(e, "/exercises/", "ne", 13, "#2f7a5b", "#2f7a5b") for e in EXERCISES)
+    return f"""<svg class="nodemap" width="100%" style="max-width:520px;height:auto" viewBox="0 -6 400 420" role="img" aria-label="Map of building blocks and the exercises that use them">
+<g class="links" stroke="#9aa6bd" stroke-width="1.5">{lines}</g>{nodes}</svg>
 <p class="legend"><span class="dot b"></span>Building block <span class="dot e"></span>Exercise · tap a node to open it</p>"""
 def g(grade):
     return f'<span class="grade">{grade}</span>'
