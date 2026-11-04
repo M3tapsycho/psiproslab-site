@@ -2,12 +2,13 @@
 Source text: Claude Doc "Brain and Sleep – psiproslab draft" (+ approved disclaimer fixes, 4 Nov 2026)."""
 from pathlib import Path
 import hashlib
+from icons import icon
 
 ROOT = Path(__file__).parent
 PRIVACY = "https://app.psiproslab.com/privacy/"
 def _v(f): return hashlib.md5((ROOT / "assets" / f).read_bytes()).hexdigest()[:8]
 NAV = [("/", "Home"), ("/building-blocks/", "Building blocks"), ("/exercises/", "Exercises"),
-       ("/brain-and-sleep/", "Brain and Sleep"), ("/sources/", "Sources")]
+       ("/brain-and-sleep/", "Brain & Sleep"), ("/sources/", "Sources")]
 HEALTH_CHECK = ('<p class="note"><strong>Health check:</strong> ask your doctor first if you have a heart '
                 'condition, take beta-blockers or have an eating disorder.</p>')
 
@@ -24,7 +25,7 @@ def page(path, title, desc, body):
 <meta name="description" content="{desc}">
 <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Inter:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/assets/site.css?v={_v('site.css')}">
 </head>
 <body>
@@ -52,37 +53,43 @@ def page(path, title, desc, body):
     out.write_text(html, encoding="utf-8")
 
 
-def article(h1, intro, body):
-    return f"""<section class="page-head"><div class="wrap narrow"><h1>{h1}</h1><p class="muted">{intro}</p></div></section>
+def article(h1, intro, body, sub=""):
+    sub = f'<p class="sub">{sub}</p>' if sub else ""
+    return f"""<section class="page-head"><div class="wrap narrow"><h1>{h1}</h1>{sub}<p class="muted">{intro}</p></div></section>
 <div class="prose"><div class="wrap narrow">
 {body}
 </div></div>"""
 
 
+def g(grade):
+    return f'<span class="grade">{grade}</span>'
+
+
 def ex(text):
-    return f"<p><strong>Example:</strong> {text}</p>"
+    return f'<div class="card ex"><h3>Example</h3><p>{text}</p></div>'
 
 
 # ---------- Home ----------
-HOME = """<section class="hero"><div class="wrap narrow">
-  <h1>psiproslab</h1>
-  <p class="lead">Simple tools for a calmer, sharper mind. The science, explained simply.</p>
+HOME = f"""<section class="hero"><div class="wrap narrow">
+  <p class="eyebrow">Self-help · Evidence-graded</p>
+  <h1>Calmer, sharper mind</h1>
+  <p class="lead">Simple tools. The science, explained simply.</p>
+  <div class="actions"><a class="btn" href="/building-blocks/">Start with the blocks</a><a class="btn ghost" href="/brain-and-sleep/">What really helps</a></div>
 </div></section>
 <section><div class="wrap narrow">
-  <h2>How to use this site</h2>
-  <ol class="rows">
-    <li><a href="/building-blocks/"><b>Building blocks</b><span>Short pieces on how your brain works.</span></a></li>
-    <li><a href="/exercises/"><b>Exercises</b><span>The blocks put to work on real problems.</span></a></li>
-    <li><a href="/brain-and-sleep/"><b>Brain and Sleep</b><span>What really helps, graded A, B or C.</span></a></li>
-  </ol>
-  <p class="small muted">Every claim has a grade and a <a href="/sources/">source</a> you can check.</p>
+  <div class="steps3">
+    <a class="step" href="/building-blocks/"><span class="num">01</span>{icon("blocks")}<h3>Building blocks</h3><p>Short pieces on how your brain works.</p><span class="go">Open →</span></a>
+    <a class="step" href="/exercises/"><span class="num">02</span>{icon("exercises")}<h3>Exercises</h3><p>The blocks put to work on real problems.</p><span class="go">Open →</span></a>
+    <a class="step" href="/brain-and-sleep/"><span class="num">03</span>{icon("brain-sleep")}<h3>Brain &amp; Sleep</h3><p>What really helps, graded A, B or C.</p><span class="go">Open →</span></a>
+  </div>
+  <p class="small muted trust">Every claim has a grade and a <a href="/sources/">source</a> you can check.</p>
 </div></section>"""
 
 # ---------- Building blocks (one page each) ----------
 TIPP_LINK = '<a href="/building-blocks/tipp/">TIPP</a>'
 
 BLOCKS = [
-    dict(slug="abc-model", name="The ABC model", short="ABC model",
+    dict(slug="abc-model", name="ABC model", short="ABC model",
          teaser="Why the same event makes one person angry and another grateful.",
          body="""<p>It's not the situation that decides how you feel, but what you think about it. This model comes from Albert Ellis (REBT) and is a core idea of cognitive behavioural therapy.</p>
 <ul>
@@ -105,35 +112,35 @@ BLOCKS = [
 <li>Ask yourself: "What did I think at that moment?" That's your <strong>B</strong>.</li>
 <li>Look for another possible thought about the same event. How would you feel then?</li>
 </ol>"""),
-    dict(slug="three-brains", name="The three brains", short="Three brains",
+    dict(slug="three-brains", name="Three brains", short="Three brains",
          teaser="Instinct, emotion and thinking: who's in charge under stress.",
          body="""<p>Think of your brain as three helpers. The instinct brain keeps you alive, the emotion brain makes you feel, and the thinking brain plans and decides. This is a simple picture, not exact anatomy: the old "triune brain" model by MacLean is outdated, but the idea that stress hands control to faster systems is well supported (Arnsten, 2009 review).</p>"""),
-    dict(slug="instinct-is-faster", name="Instinct is faster", short="Instinct",
+    dict(slug="instinct-is-faster", name="Fast instinct", short="Fast instinct",
          teaser="Why you jump before you know why.",
          body="""<p>Your survival reflex acts before you feel or think. Nothing is switched off; it simply wins the race.</p>
 """ + ex('You see a garden hose in the grass and jump back. A moment later you feel fear. Only then does your thinking brain say, "It\'s just a hose." (LeDoux\'s research on the brain\'s fast survival circuit.)')),
-    dict(slug="emotion-takes-over", name="Emotion takes over", short="Emotion",
+    dict(slug="emotion-takes-over", name="Emotion wins", short="Emotion wins",
          teaser="Why you say things you regret in a fight.",
          body="""<p>When an emotion is very strong, it turns down your thinking brain. You act first and think later.</p>
 """ + ex('In a heated fight with your partner, you say hurtful things you don\'t mean. When you calm down, your thinking brain comes back and you think, "Why did I say that?" Regret follows.')),
-    dict(slug="white-bear-effect", name="The white bear effect", short="White bear",
+    dict(slug="white-bear-effect", name="White bear", short="White bear",
          teaser="Why \"don't think of it\" backfires.",
          body="""<p>Trying not to think about something keeps it in your head. Your brain can't do "don't"; it only hears the thing itself. Fighting the thought also costs energy. (Wegner's research, confirmed by a meta-analysis.)</p>
 """ + ex('Try not to think of a white bear for one minute. It keeps popping up.')),
-    dict(slug="emotional-bucket", name="The emotional bucket", short="Bucket",
+    dict(slug="emotional-bucket", name="Emotional bucket", short="Bucket",
          teaser="Why small things overflow on a bad day.",
          body="""<p>Stress and strong feelings fill a bucket inside you over the day. When it's full, even small things make it overflow.</p>
 """ + ex('After a stressful day, a spilled glass of milk makes you snap at your kids. On a calm morning, you\'d just wipe it up.')),
-    dict(slug="clogged-engine", name="The clogged engine", short="Clogged engine",
+    dict(slug="clogged-engine", name="Clogged engine", short="Clogged engine",
          teaser="Why effort feels harder as the day goes on.",
          body="""<p>Hard thinking is like a car engine working hard: dirt builds up in the filter. The more it clogs, the harder every effort feels, so you pick the easy option. A full emotional bucket is like driving uphill with a heavy load: the filter clogs faster. Rest and sleep clean it. (A 2022 brain study by Wiehler and colleagues; more studies are needed.)</p>
 """ + ex('After a long workday you planned to cook, but you order takeaway instead.')),
-    dict(slug="relief-reward", name="The relief reward", short="Relief reward",
+    dict(slug="relief-reward", name="Relief reward", short="Relief reward",
          teaser="Why avoiding feels good and keeps you stuck.",
          body="""<p>Avoiding something unpleasant feels good right away. That relief works like a reward, so your brain learns to avoid it again. (Research by Sirois and Pychyl; a meta-analysis by Steel.)</p>
 """ + ex('You open your tax forms, feel a knot in your stomach, and grab your phone instead. The knot goes away, so next time you grab the phone sooner.')),
-    dict(slug="tipp", name="TIPP: empty the bucket fast", short="TIPP",
-         teaser="Four fast ways to calm your body.",
+    dict(slug="tipp", name="TIPP", short="TIPP",
+         teaser="Empty the bucket fast: four ways to calm your body.",
          body=f"""<p>Four quick ways to calm your body when emotions run high. (A skill from Dialectical Behaviour Therapy.)</p>
 <ol>
 <li><strong>Temperature:</strong> Cold water on your face for 30 seconds.</li>
@@ -147,12 +154,12 @@ BLOCKS = [
 
 # ---------- Exercises (one page each) ----------
 EXERCISES = [
-    dict(slug="quitting-smoking", name="Quitting smoking", short="Quit smoking",
+    dict(slug="quitting-smoking", name="Quit smoking", short="Quit smoking",
          teaser="Stop fighting the urge; empty the bucket instead.",
          uses=["white-bear-effect", "emotional-bucket", "clogged-engine", "tipp"],
          body=f"""<p>Telling yourself "don't smoke" all day keeps the urge alive. On a stressful day the bucket overflows, the engine clogs, and you light up. So stop fighting the thought, and empty the bucket with {TIPP_LINK} before the urge wins.</p>
 {HEALTH_CHECK}"""),
-    dict(slug="beating-procrastination", name="Beating procrastination", short="Procrastination",
+    dict(slug="beating-procrastination", name="Procrastination", short="Procrastination",
          teaser="Four steps from avoiding to starting.",
          uses=["relief-reward", "emotional-bucket", "tipp"],
          body=f"""<p>Deal with the feeling first, then the task.</p>
@@ -163,8 +170,8 @@ EXERCISES = [
 <li><strong>Notice the good feeling of doing:</strong> Progress feels better than escape.</li>
 </ol>
 {HEALTH_CHECK}"""),
-    dict(slug="limitless-wish-list", name="Find your real goals: the limitless wish list", short="Wish list",
-         teaser="Find what you really want in 15 minutes.",
+    dict(slug="limitless-wish-list", name="Wish list", short="Wish list",
+         teaser="Find your real goals in 15 minutes.",
          uses=[],
          body="""<p>This exercise shows what you really want once "realistic" filters are out of the way. It takes about 15 minutes.</p>
 <ol>
@@ -181,7 +188,7 @@ BY_SLUG = {b["slug"]: b for b in BLOCKS}
 
 def tiles(items, base):
     return '<div class="tiles">' + "".join(
-        f'<a class="tile" href="{base}{i["slug"]}/"><h3>{i["name"]}</h3><p>{i["teaser"]}</p></a>'
+        f'<a class="tile" href="{base}{i["slug"]}/">{icon(i.get("icon", i["slug"]))}<h3>{i["name"]}{g(i["grade"]) if i.get("grade") else ""}</h3><p>{i["teaser"]}</p></a>'
         for i in items) + "</div>"
 
 
@@ -191,7 +198,7 @@ def chips(items, base):
 
 
 QUICK = [("/building-blocks/", "Building blocks"), ("/exercises/", "Exercises"),
-         ("/brain-and-sleep/", "Brain and Sleep")]
+         ("/brain-and-sleep/", "Brain & Sleep")]
 
 
 def quick_nav(current):
@@ -203,7 +210,7 @@ def quick_nav(current):
 def item_page(kind_path, kind_name, item, extra):
     body = f"""<section class="page-head"><div class="wrap narrow">
 <a class="back" href="{kind_path}">← {kind_name}</a>
-<h1>{item["name"]}</h1><p class="muted">{item["teaser"]}</p></div></section>
+<div class="head-row">{icon(item.get("icon", item["slug"]), 48)}<div><h1>{item["name"]}{g(item["grade"]) if item.get("grade") else ""}</h1><p class="muted">{item["teaser"]}</p></div></div></div></section>
 <div class="prose"><div class="wrap narrow">
 {item["body"]}
 {extra}
@@ -236,67 +243,55 @@ def node_map():
     return f"""<svg class="nodemap" width="100%" style="max-width:440px;height:auto" viewBox="0 -6 400 420" role="img" aria-label="Map of building blocks and the exercises that use them">
 <g class="links" stroke="#9aa6bd" stroke-width="1.5">{lines}</g>{nodes}</svg>
 <p class="legend"><span class="dot b"></span>Building block <span class="dot e"></span>Exercise · tap a node to open it</p>"""
-def g(grade):
-    return f'<span class="grade">{grade}</span>'
 
 
-# ---------- Brain and Sleep ----------
-SLEEP = f"""<p><strong>Grades:</strong> A = strong proof, B = some proof, C = little proof.</p>
+# ---------- Brain & Sleep ----------
+BASICS = [
+    dict(slug="sleep", name="Sleep", grade="A", text="7–9 hours, at the same times every day. Get daylight in the morning, and dim screens at night."),
+    dict(slug="move", name="Move", grade="A", text="Walking, cycling or swimming helps your thinking and your mood."),
+    dict(slug="eat", name="Eat", grade="B", text="Lots of vegetables, fish and olive oil, like in the Mediterranean."),
+    dict(slug="focus", name="Focus", grade="B", text="Do one thing at a time and take breaks."),
+]
+SUPPS = [
+    dict(slug="melatonin", name="Melatonin", grade="A/B", teaser="Sets your body clock. A for jet lag, B for falling asleep.",
+         intro='Melatonin tells your body clock "it\'s night." It sets the time; it doesn\'t knock you out.',
+         facts=[("Good for", "Jet lag, night shifts and night owls. You fall asleep a few minutes faster."),
+                ("How", "A small dose (0.5–1 mg) works as well as a big one. Take it 1–3 hours before bedtime."),
+                ("Watch out", "It doesn't cure long-term sleep problems; a sleep therapy called CBT-I does. It can make you groggy or give you headaches or vivid dreams. Rules differ by country: in some, melatonin needs a prescription. Check with your doctor or pharmacist.")]),
+    dict(slug="creatine", name="Creatine", grade="B", teaser="Brain fuel. A small memory boost for some.",
+         intro="Your muscles use creatine, and so does your brain.",
+         facts=[("Good for", "A little better memory, mostly in older people, vegetarians and people short on sleep."),
+                ("How", "3–5 g of creatine monohydrate a day."),
+                ("Watch out", "The effect is small. If you have kidney problems, ask your doctor first.")]),
+    dict(slug="l-theanine", name="L-theanine", grade="B", teaser="Calm focus, together with coffee.",
+         intro="L-theanine comes from tea.",
+         facts=[("Good for", "Together with coffee, it helps you focus without the jitters."),
+                ("Watch out", "The effect is mild. A cup of green tea gives you both at once.")]),
+    dict(slug="omega-3", name="Omega-3", grade="B", teaser="Fish oil. A small help with low mood.",
+         intro="Your brain is partly built from these fats.",
+         facts=[("Good for", "A small help with low mood. Little effect on memory."),
+                ("How", "Oily fish twice a week, or about 1 g of fish oil a day."),
+                ("Watch out", "If you take blood thinners, ask your doctor first.")]),
+    dict(slug="lions-mane", name="Lion's mane", grade="C", teaser="A mushroom. Mostly tested on animals.",
+         intro="A mushroom sold as a brain supplement.",
+         facts=[("Good for", "Maybe memory and mood, but it's mostly tested on animals."),
+                ("Watch out", "Quality differs a lot between brands. A few people get allergic reactions.")]),
+    dict(slug="peptides", name="Peptides", grade="C", teaser="Such as BPC-157. Not approved; best avoided.",
+         intro="Peptides such as BPC-157.",
+         facts=[("Proof", "Almost no good tests in people."),
+                ("Watch out", "Often sold online with unknown contents, usually as injections, and many are not approved."),
+                ("Bottom line", "Not an approved medicine and banned in sport. Best avoided.")]),
+]
+for _x in SUPPS:
+    _x["body"] = (f'<p>{_x["intro"]}</p><div class="facts">' +
+                  "".join(f'<div class="card"><h3>{k}</h3><p>{v}</p></div>' for k, v in _x["facts"]) +
+                  '</div><p class="small muted">For learning, not medical advice. <a href="/sources/">Sources</a></p>')
 
-<h2>The basics that work best</h2>
-<ol>
-<li><strong>Sleep</strong>{g('A')}: 7–9 hours, at the same times every day. Get daylight in the morning, and dim screens at night.</li>
-<li><strong>Move</strong>{g('A')}: Walking, cycling or swimming helps your thinking and your mood.</li>
-<li><strong>Eat</strong>{g('B')}: Lots of vegetables, fish and olive oil, like in the Mediterranean.</li>
-<li><strong>Focus</strong>{g('B')}: Do one thing at a time and take breaks.</li>
-</ol>
-
-<h2>Melatonin: for sleep timing {g('A for jet lag, B for falling asleep')}</h2>
-<p>Melatonin tells your body clock "it's night." It sets the time; it doesn't knock you out.</p>
-<ul>
-<li><strong>Good for:</strong> jet lag, night shifts and night owls. You fall asleep a few minutes faster.</li>
-<li><strong>How:</strong> A small dose (0.5–1 mg) works as well as a big one. Take it 1–3 hours before bedtime.</li>
-<li><strong>Watch out:</strong> It doesn't cure long-term sleep problems; a sleep therapy called CBT-I does. It can make you groggy or give you headaches or vivid dreams. Rules differ by country: in some, melatonin needs a prescription. Check with your doctor or pharmacist.</li>
-</ul>
-
-<h2>Creatine: brain fuel {g('B')}</h2>
-<p>Your muscles use creatine, and so does your brain.</p>
-<ul>
-<li><strong>Good for:</strong> a little better memory, mostly in older people, vegetarians and people short on sleep.</li>
-<li><strong>How:</strong> 3–5 g of creatine monohydrate a day.</li>
-<li><strong>Watch out:</strong> The effect is small. If you have kidney problems, ask your doctor first.</li>
-</ul>
-
-<h2>L-theanine: calm focus {g('B')}</h2>
-<p>L-theanine comes from tea.</p>
-<ul>
-<li><strong>Good for:</strong> together with coffee, it helps you focus without the jitters.</li>
-<li><strong>Watch out:</strong> The effect is mild. A cup of green tea gives you both at once.</li>
-</ul>
-
-<h2>Omega-3: fish oil {g('B')}</h2>
-<p>Your brain is partly built from these fats.</p>
-<ul>
-<li><strong>Good for:</strong> a small help with low mood. Little effect on memory.</li>
-<li><strong>How:</strong> Oily fish twice a week, or about 1 g of fish oil a day.</li>
-<li><strong>Watch out:</strong> If you take blood thinners, ask your doctor first.</li>
-</ul>
-
-<h2>Lion's mane: a mushroom {g('C')}</h2>
-<ul>
-<li><strong>Good for:</strong> maybe memory and mood, but it's mostly tested on animals.</li>
-<li><strong>Watch out:</strong> Quality differs a lot between brands. A few people get allergic reactions.</li>
-</ul>
-
-<h2>Peptides such as BPC-157 {g('C')}</h2>
-<ul>
-<li><strong>Proof:</strong> Almost no good tests in people.</li>
-<li><strong>Watch out:</strong> Often sold online with unknown contents, usually as injections, and many are not approved.</li>
-<li><strong>Bottom line:</strong> Not an approved medicine and banned in sport. Best avoided.</li>
-</ul>
-
-<p><em>This page is for learning, not medical advice.</em></p>
-<p>Want to check the science? See <a href="/sources/">Sources</a>.</p>"""
+SLEEP = ('<p class="legend-g"><span class="grade">A</span> strong proof <span class="grade">B</span> some proof <span class="grade">C</span> little proof</p>'
+         '<h2>Basics</h2><p class="small muted">They beat every pill.</p><div class="tiles">' +
+         "".join(f'<div class="tile static">{icon(b["slug"])}<h3>{b["name"]}{g(b["grade"])}</h3><p>{b["text"]}</p></div>' for b in BASICS) +
+         '</div><h2>Supplements</h2><p class="small muted">Tap one to see what it does, how to take it and what to watch out for.</p>' +
+         tiles(SUPPS, "/brain-and-sleep/"))
 
 
 # ---------- Sources ----------
@@ -304,7 +299,7 @@ def src(label, links):
     return "<li>" + label + ": " + " and ".join(f'<a href="{u}">{t}</a>' for t, u in links) + "</li>"
 
 
-SOURCES = "<h2>Brain and Sleep</h2><ul>" + "".join([
+SOURCES = "<h2>Brain &amp; Sleep</h2><ul>" + "".join([
     src("Melatonin", [("Ferracioli-Oda et al., 2013, meta-analysis, PLOS One", "https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0063773")]),
     src("Sleep therapy (CBT-I)", [("Trauer et al., 2015, meta-analysis, Annals of Internal Medicine", "https://pubmed.ncbi.nlm.nih.gov/26054060/")]),
     src("Creatine", [("Avgerinos et al., 2018, systematic review, Experimental Gerontology", "https://pmc.ncbi.nlm.nih.gov/articles/PMC6093191/")]),
@@ -324,16 +319,16 @@ SOURCES = "<h2>Brain and Sleep</h2><ul>" + "".join([
     src("TIPP", [("Linehan, DBT Skills Training Manual", "https://www.guilford.com/books/DBT-Skills-Training-Manual/Marsha-Linehan/9781462556359")]),
 ]) + "</ul>"
 
-NOT_FOUND = """<section class="page-head"><div class="wrap narrow"><h1>Page not found</h1>
+NOT_FOUND = """<section class="page-head"><div class="wrap narrow"><h1>Not found</h1>
 <p class="muted">This page moved or no longer exists. Start from the <a href="/">home page</a>.</p></div></section>"""
 
 MAP = f"""<section class="band"><div class="wrap narrow">
-<h2>How it connects</h2>
+<h2>Connections</h2><p class="small muted">Each exercise is built from building blocks.</p>
 {node_map()}</div></section>"""
 page("/", "psiproslab — Simple tools for a calmer, sharper mind",
      "Simple, evidence-graded tools for a calmer, sharper mind. The science, explained simply.", HOME + MAP)
 page("/building-blocks/", "Building blocks — psiproslab", "Short pieces on how your brain works.",
-     article("Building blocks", "Short pieces on how your brain works. Each one stands on its own. Tap a block to open it.",
+     article("Building blocks", "Short pieces on how your brain works. Tap a block to open it.",
              tiles(BLOCKS, "/building-blocks/")))
 page("/exercises/", "Exercises — psiproslab", "The building blocks put to work on real problems.",
      article("Exercises", "The building blocks put to work on real problems. Tap an exercise to open it.",
@@ -344,14 +339,15 @@ for blk in BLOCKS:
               f'<h2>Used in</h2>{chips(used, "/exercises/")}' if used else "")
 for exr in EXERCISES:
     item_page("/exercises/", "Exercises", exr,
-              f'<h2>Building blocks used</h2>{chips([BY_SLUG[u] for u in exr["uses"]], "/building-blocks/")}'
+              f'<h2>Blocks used</h2>{chips([BY_SLUG[u] for u in exr["uses"]], "/building-blocks/")}'
               if exr["uses"] else "")
-page("/brain-and-sleep/", "Brain and Sleep: what really helps — psiproslab",
+page("/brain-and-sleep/", "Brain & Sleep: what really helps — psiproslab",
      "Sleep, exercise, diet and supplements for the brain, graded A, B or C.",
-     article("Brain and Sleep: what really helps",
-             "Many pills promise a better brain. Most do little. This page shows what works and what doesn't. "
-             "First the basics, because they beat every pill. Ask your doctor before you take anything, "
-             "especially if you take medicine, are pregnant or are ill.", SLEEP))
+     article("Brain &amp; Sleep",
+             "Many pills promise a better brain. Most do little. Ask your doctor before you take anything, "
+             "especially if you take medicine, are pregnant or are ill.", SLEEP, sub="What really helps"))
+for sup in SUPPS:
+    item_page("/brain-and-sleep/", "Brain &amp; Sleep", sup, "")
 page("/sources/", "Sources — psiproslab", "The studies behind every claim on psiproslab.",
      article("Sources", "For anyone who wants to check the science.", SOURCES))
 (ROOT / "404.html").write_text("", encoding="utf-8")
