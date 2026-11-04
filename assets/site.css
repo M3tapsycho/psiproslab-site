@@ -126,3 +126,17 @@ footer a{color:var(--muted)}
 .rows span{font-size:14px;color:var(--muted)}
 .rows a:hover b{text-decoration:underline}
 .small{font-size:14px}
+
+/* quick return buttons on deeper pages */
+.quick{position:fixed;z-index:20;display:flex;gap:6px}
+.quick a{display:flex;align-items:center;justify-content:center;text-align:center;text-decoration:none;font:500 13px/1.2 "Inter",sans-serif;color:var(--navy);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 8px}
+.quick a.on{background:var(--navy);color:var(--navy-ink);border-color:var(--navy)}
+@media (max-width:1099px){
+  .quick{left:0;right:0;bottom:0;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);border-top:1px solid var(--line)}
+  .quick a{flex:1}
+  body:has(.quick) footer{padding-bottom:90px}
+}
+@media (min-width:1100px){
+  .quick{right:20px;top:50%;transform:translateY(-50%);flex-direction:column;width:150px}
+  .quick a{padding:16px 10px;font-size:14px}
+}

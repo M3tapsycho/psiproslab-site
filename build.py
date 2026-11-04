@@ -153,7 +153,7 @@ EXERCISES = [
          body=f"""<p>Telling yourself "don't smoke" all day keeps the urge alive. On a stressful day the bucket overflows, the engine clogs, and you light up. So stop fighting the thought, and empty the bucket with {TIPP_LINK} before the urge wins.</p>
 {HEALTH_CHECK}"""),
     dict(slug="beating-procrastination", name="Beating procrastination", short="Procrastination",
-         teaser="Deal with the feeling first, then the task.",
+         teaser="Four steps from avoiding to starting.",
          uses=["relief-reward", "emotional-bucket", "tipp"],
          body=f"""<p>Deal with the feeling first, then the task.</p>
 <ol>
@@ -190,6 +190,16 @@ def chips(items, base):
         f'<a class="chip" href="{base}{i["slug"]}/">{i["name"]}</a>' for i in items) + "</div>"
 
 
+QUICK = [("/building-blocks/", "Building blocks"), ("/exercises/", "Exercises"),
+         ("/brain-and-sleep/", "Brain and Sleep")]
+
+
+def quick_nav(current):
+    """Fixed jump-back buttons on deeper pages: bottom bar on phones, right column on wide screens."""
+    return '<nav class="quick" aria-label="Main sections">' + "".join(
+        f'<a href="{h}"{" class=\"on\"" if h == current else ""}>{t}</a>' for h, t in QUICK) + "</nav>"
+
+
 def item_page(kind_path, kind_name, item, extra):
     body = f"""<section class="page-head"><div class="wrap narrow">
 <a class="back" href="{kind_path}">← {kind_name}</a>
@@ -197,7 +207,8 @@ def item_page(kind_path, kind_name, item, extra):
 <div class="prose"><div class="wrap narrow">
 {item["body"]}
 {extra}
-</div></div>"""
+</div></div>
+{quick_nav(kind_path)}"""
     page(f'{kind_path}{item["slug"]}/', f'{item["name"]} — psiproslab', item["teaser"], body)
 
 
