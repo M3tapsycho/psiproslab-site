@@ -76,9 +76,13 @@ HOME = """<section class="hero"><div class="wrap">
   <p class="muted" style="text-align:center;margin-top:28px">Every claim has a grade and a source you can <a href="/sources/">check yourself</a>.</p>
 </div></section>"""
 
-# ---------- Building blocks ----------
-BLOCKS = f"""<h2>Mind tool: the ABC model</h2>
-<p>It's not the situation that decides how you feel, but what you think about it. This model comes from Albert Ellis (REBT) and is a core idea of cognitive behavioural therapy.</p>
+# ---------- Building blocks (one page each) ----------
+TIPP_LINK = '<a href="/building-blocks/tipp/">TIPP</a>'
+
+BLOCKS = [
+    dict(slug="abc-model", name="The ABC model", short="ABC model",
+         teaser="Why the same event makes one person angry and another grateful.",
+         body="""<p>It's not the situation that decides how you feel, but what you think about it. This model comes from Albert Ellis (REBT) and is a core idea of cognitive behavioural therapy.</p>
 <ul>
 <li><strong>A, Activating event:</strong> what happens.</li>
 <li><strong>B, Belief:</strong> what you think about it.</li>
@@ -98,37 +102,37 @@ BLOCKS = f"""<h2>Mind tool: the ABC model</h2>
 <li>Write down what happened, just the facts. That's your <strong>A</strong>.</li>
 <li>Ask yourself: "What did I think at that moment?" That's your <strong>B</strong>.</li>
 <li>Look for another possible thought about the same event. How would you feel then?</li>
-</ol>
-
-<h2>The three brains</h2>
-<p>Think of your brain as three helpers. The instinct brain keeps you alive, the emotion brain makes you feel, and the thinking brain plans and decides. This is a simple picture, not exact anatomy: the old "triune brain" model by MacLean is outdated, but the idea that stress hands control to faster systems is well supported (Arnsten, 2009 review).</p>
-
-<h2>Instinct is faster</h2>
-<p>Your survival reflex acts before you feel or think. Nothing is switched off; it simply wins the race.</p>
-{ex('You see a garden hose in the grass and jump back. A moment later you feel fear. Only then does your thinking brain say, "It\'s just a hose." (LeDoux\'s research on the brain\'s fast survival circuit.)')}
-
-<h2>Emotion takes over</h2>
-<p>When an emotion is very strong, it turns down your thinking brain. You act first and think later.</p>
-{ex('In a heated fight with your partner, you say hurtful things you don\'t mean. When you calm down, your thinking brain comes back and you think, "Why did I say that?" Regret follows.')}
-
-<h2>The white bear effect</h2>
-<p>Trying not to think about something keeps it in your head. Your brain can't do "don't"; it only hears the thing itself. Fighting the thought also costs energy. (Wegner's research, confirmed by a meta-analysis.)</p>
-{ex('Try not to think of a white bear for one minute. It keeps popping up.')}
-
-<h2>The emotional bucket</h2>
-<p>Stress and strong feelings fill a bucket inside you over the day. When it's full, even small things make it overflow.</p>
-{ex('After a stressful day, a spilled glass of milk makes you snap at your kids. On a calm morning, you\'d just wipe it up.')}
-
-<h2>The clogged engine</h2>
-<p>Hard thinking is like a car engine working hard: dirt builds up in the filter. The more it clogs, the harder every effort feels, so you pick the easy option. A full emotional bucket is like driving uphill with a heavy load: the filter clogs faster. Rest and sleep clean it. (A 2022 brain study by Wiehler and colleagues; more studies are needed.)</p>
-{ex('After a long workday you planned to cook, but you order takeaway instead.')}
-
-<h2>The relief reward</h2>
-<p>Avoiding something unpleasant feels good right away. That relief works like a reward, so your brain learns to avoid it again. (Research by Sirois and Pychyl; a meta-analysis by Steel.)</p>
-{ex('You open your tax forms, feel a knot in your stomach, and grab your phone instead. The knot goes away, so next time you grab the phone sooner.')}
-
-<h2 id="tipp">TIPP: empty the bucket fast</h2>
-<p>Four quick ways to calm your body when emotions run high. (A skill from Dialectical Behaviour Therapy.)</p>
+</ol>"""),
+    dict(slug="three-brains", name="The three brains", short="Three brains",
+         teaser="Instinct, emotion and thinking: who's in charge under stress.",
+         body="""<p>Think of your brain as three helpers. The instinct brain keeps you alive, the emotion brain makes you feel, and the thinking brain plans and decides. This is a simple picture, not exact anatomy: the old "triune brain" model by MacLean is outdated, but the idea that stress hands control to faster systems is well supported (Arnsten, 2009 review).</p>"""),
+    dict(slug="instinct-is-faster", name="Instinct is faster", short="Instinct",
+         teaser="Why you jump before you know why.",
+         body="""<p>Your survival reflex acts before you feel or think. Nothing is switched off; it simply wins the race.</p>
+""" + ex('You see a garden hose in the grass and jump back. A moment later you feel fear. Only then does your thinking brain say, "It\'s just a hose." (LeDoux\'s research on the brain\'s fast survival circuit.)')),
+    dict(slug="emotion-takes-over", name="Emotion takes over", short="Emotion",
+         teaser="Why you say things you regret in a fight.",
+         body="""<p>When an emotion is very strong, it turns down your thinking brain. You act first and think later.</p>
+""" + ex('In a heated fight with your partner, you say hurtful things you don\'t mean. When you calm down, your thinking brain comes back and you think, "Why did I say that?" Regret follows.')),
+    dict(slug="white-bear-effect", name="The white bear effect", short="White bear",
+         teaser="Why \"don't think of it\" backfires.",
+         body="""<p>Trying not to think about something keeps it in your head. Your brain can't do "don't"; it only hears the thing itself. Fighting the thought also costs energy. (Wegner's research, confirmed by a meta-analysis.)</p>
+""" + ex('Try not to think of a white bear for one minute. It keeps popping up.')),
+    dict(slug="emotional-bucket", name="The emotional bucket", short="Bucket",
+         teaser="Why small things overflow on a bad day.",
+         body="""<p>Stress and strong feelings fill a bucket inside you over the day. When it's full, even small things make it overflow.</p>
+""" + ex('After a stressful day, a spilled glass of milk makes you snap at your kids. On a calm morning, you\'d just wipe it up.')),
+    dict(slug="clogged-engine", name="The clogged engine", short="Clogged engine",
+         teaser="Why effort feels harder as the day goes on.",
+         body="""<p>Hard thinking is like a car engine working hard: dirt builds up in the filter. The more it clogs, the harder every effort feels, so you pick the easy option. A full emotional bucket is like driving uphill with a heavy load: the filter clogs faster. Rest and sleep clean it. (A 2022 brain study by Wiehler and colleagues; more studies are needed.)</p>
+""" + ex('After a long workday you planned to cook, but you order takeaway instead.')),
+    dict(slug="relief-reward", name="The relief reward", short="Relief reward",
+         teaser="Why avoiding feels good and keeps you stuck.",
+         body="""<p>Avoiding something unpleasant feels good right away. That relief works like a reward, so your brain learns to avoid it again. (Research by Sirois and Pychyl; a meta-analysis by Steel.)</p>
+""" + ex('You open your tax forms, feel a knot in your stomach, and grab your phone instead. The knot goes away, so next time you grab the phone sooner.')),
+    dict(slug="tipp", name="TIPP: empty the bucket fast", short="TIPP",
+         teaser="Four fast ways to calm your body.",
+         body=f"""<p>Four quick ways to calm your body when emotions run high. (A skill from Dialectical Behaviour Therapy.)</p>
 <ol>
 <li><strong>Temperature:</strong> Cold water on your face for 30 seconds.</li>
 <li><strong>Intense exercise:</strong> A few minutes of hard movement.</li>
@@ -136,26 +140,31 @@ BLOCKS = f"""<h2>Mind tool: the ABC model</h2>
 <li><strong>Paired muscle relaxation:</strong> Tense a muscle while breathing in, let go while breathing out.</li>
 </ol>
 {HEALTH_CHECK}
-{ex('Panic rises before a meeting. You splash cold water on your face, and your heart slows down.')}"""
+""" + ex('Panic rises before a meeting. You splash cold water on your face, and your heart slows down.')),
+]
 
-# ---------- Exercises ----------
-EXERCISES = f"""<h2>Quitting smoking</h2>
-<p class="muted">Uses: white bear effect, emotional bucket, clogged engine, TIPP.</p>
-<p>Telling yourself "don't smoke" all day keeps the urge alive. On a stressful day the bucket overflows, the engine clogs, and you light up. So stop fighting the thought, and empty the bucket with <a href="/building-blocks/#tipp">TIPP</a> before the urge wins.</p>
-{HEALTH_CHECK}
-
-<h2>Beating procrastination</h2>
-<p class="muted">Uses: relief reward, emotional bucket, TIPP.</p>
-<p>Deal with the feeling first, then the task.</p>
+# ---------- Exercises (one page each) ----------
+EXERCISES = [
+    dict(slug="quitting-smoking", name="Quitting smoking", short="Quit smoking",
+         teaser="Stop fighting the urge; empty the bucket instead.",
+         uses=["white-bear-effect", "emotional-bucket", "clogged-engine", "tipp"],
+         body=f"""<p>Telling yourself "don't smoke" all day keeps the urge alive. On a stressful day the bucket overflows, the engine clogs, and you light up. So stop fighting the thought, and empty the bucket with {TIPP_LINK} before the urge wins.</p>
+{HEALTH_CHECK}"""),
+    dict(slug="beating-procrastination", name="Beating procrastination", short="Procrastination",
+         teaser="Deal with the feeling first, then the task.",
+         uses=["relief-reward", "emotional-bucket", "tipp"],
+         body=f"""<p>Deal with the feeling first, then the task.</p>
 <ol>
 <li><strong>Name the feeling:</strong> "This task makes me anxious" or "bored."</li>
-<li><strong>Lower it:</strong> Use <a href="/building-blocks/#tipp">TIPP</a>, or remind yourself the feeling will pass.</li>
+<li><strong>Lower it:</strong> Use {TIPP_LINK}, or remind yourself the feeling will pass.</li>
 <li><strong>Make the start tiny:</strong> Commit to only 5 minutes.</li>
 <li><strong>Notice the good feeling of doing:</strong> Progress feels better than escape.</li>
 </ol>
-
-<h2>Find your real goals: the limitless wish list</h2>
-<p>This exercise shows what you really want once "realistic" filters are out of the way. It takes about 15 minutes.</p>
+{HEALTH_CHECK}"""),
+    dict(slug="limitless-wish-list", name="Find your real goals: the limitless wish list", short="Wish list",
+         teaser="Find what you really want in 15 minutes.",
+         uses=[],
+         body="""<p>This exercise shows what you really want once "realistic" filters are out of the way. It takes about 15 minutes.</p>
 <ol>
 <li><strong>Remove every limit.</strong> Imagine there are no limits on age, money, situation, personality or other people. Anything goes, from a private jet to becoming a squirrel.</li>
 <li><strong>Write 10 wishes.</strong> List the first 10 things you want. Don't judge or edit them.</li>
@@ -163,9 +172,57 @@ EXERCISES = f"""<h2>Quitting smoking</h2>
 <li><strong>Repeat without the winner.</strong> Go back to the top of the list and run the comparisons again, skipping your number one. The new winner is your number two.</li>
 <li><strong>Repeat once more.</strong> Skip both winners and run it again to find your number three.</li>
 <li><strong>Reflect.</strong> Your top three are a good indication of what you really want. Ask yourself what each one gives you, such as freedom, safety, connection or meaning. Then ask what small, realistic step would move you toward that today.</li>
-</ol>"""
+</ol>"""),
+]
+BY_SLUG = {b["slug"]: b for b in BLOCKS}
 
 
+def tiles(items, base):
+    return '<div class="tiles">' + "".join(
+        f'<a class="tile" href="{base}{i["slug"]}/"><h3>{i["name"]}</h3><p>{i["teaser"]}</p></a>'
+        for i in items) + "</div>"
+
+
+def chips(items, base):
+    return '<div class="chips">' + "".join(
+        f'<a class="chip" href="{base}{i["slug"]}/">{i["name"]}</a>' for i in items) + "</div>"
+
+
+def item_page(kind_path, kind_name, item, extra):
+    body = f"""<section class="page-head"><div class="wrap narrow">
+<a class="back" href="{kind_path}">← {kind_name}</a>
+<h1>{item["name"]}</h1><p class="muted">{item["teaser"]}</p></div></section>
+<div class="prose"><div class="wrap narrow">
+{item["body"]}
+{extra}
+</div></div>"""
+    page(f'{kind_path}{item["slug"]}/', f'{item["name"]} — psiproslab', item["teaser"], body)
+
+
+def node_map():
+    """Brain-style map: building blocks on an outer ring, exercises inside, lines = 'uses'."""
+    import math
+    cx, cy, R = 200, 200, 158
+    pos = {}
+    n = len(BLOCKS)
+    for k, b in enumerate(BLOCKS):
+        a = -math.pi / 2 + 2 * math.pi * k / n
+        pos[b["slug"]] = (cx + R * math.cos(a), cy + R * math.sin(a))
+    inner = [(200, 128), (146, 238), (254, 238)]
+    for e, p in zip(EXERCISES, inner):
+        pos[e["slug"]] = p
+    lines = "".join(
+        f'<line x1="{pos[e["slug"]][0]:.0f}" y1="{pos[e["slug"]][1]:.0f}" x2="{pos[u][0]:.0f}" y2="{pos[u][1]:.0f}"/>'
+        for e in EXERCISES for u in e["uses"])
+    def node(i, href, cls, r):
+        x, y = pos[i["slug"]]
+        return (f'<a href="{href}{i["slug"]}/" class="{cls}"><circle cx="{x:.0f}" cy="{y:.0f}" r="{r}"/>'
+                f'<text x="{x:.0f}" y="{y + r + 14:.0f}">{i["short"]}</text></a>')
+    nodes = "".join(node(b, "/building-blocks/", "nb", 9) for b in BLOCKS)
+    nodes += "".join(node(e, "/exercises/", "ne", 13) for e in EXERCISES)
+    return f"""<svg class="nodemap" viewBox="0 -6 400 420" role="img" aria-label="Map of building blocks and the exercises that use them">
+<g class="links">{lines}</g>{nodes}</svg>
+<p class="legend"><span class="dot b"></span>Building block <span class="dot e"></span>Exercise · tap a node to open it</p>"""
 def g(grade):
     return f'<span class="grade">{grade}</span>'
 
@@ -257,12 +314,25 @@ SOURCES = "<h2>Brain and Sleep</h2><ul>" + "".join([
 NOT_FOUND = """<section class="page-head"><div class="wrap narrow"><h1>Page not found</h1>
 <p class="muted">This page moved or no longer exists. Start from the <a href="/">home page</a>.</p></div></section>"""
 
+MAP = f"""<section class="band"><div class="wrap narrow" style="text-align:center">
+<h2>How it all connects</h2><p class="muted">Each exercise is built from building blocks.</p>
+{node_map()}</div></section>"""
 page("/", "psiproslab — Simple tools for a calmer, sharper mind",
-     "Simple, evidence-graded tools for a calmer, sharper mind. The science, explained simply.", HOME)
+     "Simple, evidence-graded tools for a calmer, sharper mind. The science, explained simply.", HOME + MAP)
 page("/building-blocks/", "Building blocks — psiproslab", "Short pieces on how your brain works.",
-     article("Building blocks", "Short pieces on how your brain works. Each one stands on its own.", BLOCKS))
+     article("Building blocks", "Short pieces on how your brain works. Each one stands on its own. Tap a block to open it.",
+             tiles(BLOCKS, "/building-blocks/")))
 page("/exercises/", "Exercises — psiproslab", "The building blocks put to work on real problems.",
-     article("Exercises", "The building blocks put to work on real problems.", EXERCISES))
+     article("Exercises", "The building blocks put to work on real problems. Tap an exercise to open it.",
+             tiles(EXERCISES, "/exercises/")))
+for blk in BLOCKS:
+    used = [e for e in EXERCISES if blk["slug"] in e["uses"]]
+    item_page("/building-blocks/", "Building blocks", blk,
+              f'<h2>Used in</h2>{chips(used, "/exercises/")}' if used else "")
+for exr in EXERCISES:
+    item_page("/exercises/", "Exercises", exr,
+              f'<h2>Building blocks used</h2>{chips([BY_SLUG[u] for u in exr["uses"]], "/building-blocks/")}'
+              if exr["uses"] else "")
 page("/brain-and-sleep/", "Brain and Sleep: what really helps — psiproslab",
      "Sleep, exercise, diet and supplements for the brain, graded A, B or C.",
      article("Brain and Sleep: what really helps",
